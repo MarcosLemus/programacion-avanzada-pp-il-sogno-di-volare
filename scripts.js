@@ -37,47 +37,67 @@ class Gallery {
     }
     
     getRandomCivil() {
-        
+        const randomIndex = Math.floor(this.civilImages.length * Math.random())
+
+        return this.civilImages[randomIndex];
     }
 
     
     
     getRandomMilitary() {
+        const randomIndex = Math.floor(this.militaryImages.length * Math.random())
+        
+        return this.militaryImages[randomIndex];
     }
     
     getAll() {
+        return this.civilImages.concat(this.militaryImages)
     }
 }
 
 
 class Painter {
-    constructor(createGallery) {
-        this.createGallery = createGallery;
+    constructor() {
+        this.createGallery();
     }
 
     createGallery() {
-        const galery = document.createElement('section')
-        galery.classList.add('galery')
+        const body = document.querySelector('body')
+        const sectionDOMEL = document.createElement('section')
+        
+        body.appendChild(sectionDOMEL);
+
+        this.gallery = sectionDOMEL;
         
     }
 
     createImageTag(imageUrl) {
-        const images = document.createElement('img')
+        const pictureDOMEL = document.createElement('picture')
+        const imgDOMEL = document.createElement('img')
+        imgDOMEL.src = imageUrl;
+        pictureDOMEL.appendChild(imgDOMEL)
     
-
-        images = Math.random(civilHelicopters);
-        console.log(createImageTag(imageUrl));
-        return imageUrl;
+        return pictureDOMEL;
         
     }
 
     paintSingleImage(imageUrl) {
+        const img = this.createImageTag(imageUrl);
+        this.gallery.appendChild(img)
     }
 
     paintMultipleImages(arrayOfImages) {
+        this.gallery.innerHTML = ''
+
+        arrayOfImages.forEach(images => {
+            this.paintSingleImage(images)
+        });
     }
 }
 
 const aircrafts = new Gallery(civilAircrafts, militaryAircrafts);
+
+console.log(aircrafts);
 const helicopters = new Gallery(civilHelicopters, militaryHelicopter);
 const painter = new Painter();
+
